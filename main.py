@@ -48,7 +48,7 @@ def get_addresses():
     env = Environment(loader=file_loader)
     template = env.get_template('map_template.html')
     output = template.render(addresses=addresses)
-    with open("map.html", "w") as f:
+    with open("covid-map.html", "w") as f:
         f.write(output)
 
 
