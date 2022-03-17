@@ -29,30 +29,22 @@
         map.centerAndZoom(new BMapGL.Point(121.5,31.23), 12);
         map.enableScrollWheelZoom(true);
         var myGeo = new BMapGL.Geocoder();
-        var i = 0;
-        function markAll() {
-            if (i < addresses.length) {
-                markOne(addresses[i]);
-                i++;
-            }
-        }
-        function markOne(address) {
-            if (i < addresses.length) {
-                setTimeout(window.markAll, 10);
-            }
+        function mark(i) {
+            var address = addresses[i];
             myGeo.getPoint(address, function(point) {
-                console.log(address);
                 if (point) {
                     var marker = new BMapGL.Marker(new BMapGL.Point(point.lng, point.lat));
                     var label = new BMapGL.Label(address, {offset:new BMapGL.Size(10,-35)});
-                    console.log(label);
                     map.addOverlay(marker);
                     marker.setLabel(label);
 
                 }
             }, "上海市");
+            if (i+1 < addresses.length) {
+                setTimeout(window.mark, 10, i+1);
+            }
         }
-        markAll();
+        mark(0);
 
     </script>
 </body>
