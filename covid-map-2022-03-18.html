@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=NmfCIrNZD29GgyaKXBR5awpIm15XVAGP"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=1XjLLEhZhQNUzd93EjU5nOGQ"></script>
     <title>上海疫情地图</title>
     <style>
        body,html{
@@ -32,6 +32,9 @@
         function mark(i) {
             var address = addresses[i];
             myGeo.getPoint(address, function(point) {
+                if (address == "百色路451弄") {
+                    console.log(point)
+                }
                 if (point) {
                     var marker = new BMapGL.Marker(new BMapGL.Point(point.lng, point.lat));
                     var label = new BMapGL.Label(address, {offset:new BMapGL.Size(10,-35)});
