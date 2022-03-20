@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=NmfCIrNZD29GgyaKXBR5awpIm15XVAGP"></script>
-    <title>上海疫情地图</title>
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=ILZBZ-6UOEO-O27WF-SA3PG-OH2NS-FLF4Z"></script>
+    <title>上海（{{ range_text }}）疫情地图</title>
     <style>
        body,html{
            width: 100%;
@@ -21,8 +21,29 @@
 </head>
 <body>
     <div id='container'></div>
-    <div id='points'></div>
     <script>
+        var center = new qq.maps.LatLng(31.23, 121.5);
+        var map = new qq.maps.Map(document.getElementById('container'),{
+            center: center,
+            zoom: 12
+        });
+
+        {% for point in points %}
+        var marker = new qq.maps.Marker({
+            position: new qq.maps.LatLng({{ point.lat }}, {{ point.lng }}),
+            map: map
+        });
+        var label = new qq.maps.Label({
+            position: new qq.maps.LatLng({{ point.lat }}, {{ point.lng }}),
+            offset: new qq.maps.Size(10, -50),
+            style: {
+                "border-color": "#ff0000"
+            },
+            map: map,
+            content: '{{ point.address }}'
+        });
+        {% endfor %}
+        /*
         var addresses = {{ addresses }};
 
         var map = new BMapGL.Map('container');
@@ -45,6 +66,7 @@
             }
         }
         mark(0);
+        */
 
     </script>
 </body>
