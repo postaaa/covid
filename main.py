@@ -11,7 +11,14 @@ headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleW
 def extract_addresses(url):
     r = requests.get(url, headers=headers, verify=False)
     content = r.content.decode("utf-8")
-    texts = re.findall(r'居住于(\S+?)，|。', content, re.MULTILINE)
+    texts = re.findall(r'居住于(\S+?)，|。', content, re.MULTILINE)    
+    addresses = list(filter(lambda x: x!="", texts))
+    return list(set(addresses))
+
+def extract_addressesEx(url):
+    r = requests.get(url, headers=headers, verify=False)
+    content = r.content.decode("utf-8")
+    texts = re.findall(r'\<span style\="font\-size\:16px\;font\-family\:宋体\">(\S+?)，\</span\>', content, re.MULTILINE)
     addresses = list(filter(lambda x: x!="", texts))
     return list(set(addresses))
 
@@ -34,6 +41,18 @@ def get_addresses():
             title = node.attrib["title"]
             m = re.match(r'上海2022年(\d+)月(\d+)日', title)
             if not m:
+                m = re.match(r'(\d+)月(\d+)日\（0-24时\）本市各区确诊病例', title)
+                if not m:
+                    continue
+                mon = int(m.group(1))
+                date = int(m.group(2))
+                dt = datetime.date(2022, mon, date)
+                dt_begin = datetime.date(2022, 3, 10)
+                if dt < dt_begin:
+                    continue
+                url = base_url + sub_url
+                parts = extract_addressesEx(url)
+                addresses.extend(parts);
                 continue
             mon = int(m.group(1))
             date = int(m.group(2))
@@ -44,12 +63,13 @@ def get_addresses():
             url = base_url + sub_url
             parts = extract_addresses(url)
             addresses.extend(parts);
+        
     addresses = list(set(addresses))
     file_loader = FileSystemLoader('.')
     env = Environment(loader=file_loader)
     template = env.get_template('map_template.html')
     output = template.render(addresses=addresses)
-    with open("covid-map.html", "w") as f:
+    with open("covid-map.html", "w",encoding='utf-8') as f:
         f.write(output)
 
 
@@ -74,7 +94,9 @@ def get_addresses_on_date(date):
             patt = '上海2022年{}月{}日'.format(dt.month, dt.day)
             m = re.match(patt, title)
             if not m:
-                continue
+                m = re.match(r'感染者居住地信息', title)
+                if not m:
+                    continue
             url = base_url + sub_url
             parts = extract_addresses(url)
             addresses.extend(parts);
