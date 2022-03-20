@@ -17,10 +17,29 @@
            height: 100%;
            overflow: hidden;
        }
+       .button {
+        display: block;
+        width: 115px;
+        height: 25px;
+        background: #6bdd83;
+        padding: 10px;
+        text-align: center;
+        border-radius: 5px;
+        color: white;
+        font-weight: bold;
+        }
+       .item {
+           position: absolute;
+           left: 20px;
+           top: 20px;
+           z-index: 10000;
+       }
     </style>
 </head>
 <body>
+    <a class="button item" href="/covid-items.html">抗疫必需品</a>
     <div id='container'></div>
+    <div id='points'></div>
     <script>
         var center = new qq.maps.LatLng(31.23, 121.5);
         var map = new qq.maps.Map(document.getElementById('container'),{
@@ -43,30 +62,6 @@
             content: '{{ point.address }}'
         });
         {% endfor %}
-        /*
-        var addresses = {{ addresses }};
-
-        var map = new BMapGL.Map('container');
-        map.centerAndZoom(new BMapGL.Point(121.5,31.23), 12);
-        map.enableScrollWheelZoom(true);
-        var myGeo = new BMapGL.Geocoder();
-        function mark(i) {
-            var address = addresses[i];
-            myGeo.getPoint(address, function(point) {
-                if (point) {
-                    var marker = new BMapGL.Marker(new BMapGL.Point(point.lng, point.lat));
-                    var label = new BMapGL.Label(address, {offset:new BMapGL.Size(10,-35)});
-                    map.addOverlay(marker);
-                    marker.setLabel(label);
-
-                }
-            }, "上海市");
-            if (i+1 < addresses.length) {
-                setTimeout(window.mark, 10, i+1);
-            }
-        }
-        mark(0);
-        */
 
     </script>
     <script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1275829773'%3E%3C/span%3E%3Cscript src='https://s96.cnzz.com/z_stat.php%3Fid%3D1275829773%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
