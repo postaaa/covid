@@ -15,7 +15,36 @@ def extract_addresses(url):
     # texts = re.findall(r'居住于:(\S+?)，|。', content, re.MULTILINE)
     # texts = re.findall(r'(?<=居住于：).\S+?(?=。)', content, re.MULTILINE)
     # texts = re.findall(r'分别居住于：(\S+?)', content, re.MULTILINE)
-    texts = re.findall(r'\<span style=\"font\-size\:16px\;font\-family\:宋体\">(\S+?)，\</span\>', content, re.MULTILINE)
+    # texts = re.findall(r'\<span style=\"font\-size\:16px\;font\-family\:宋体\">(\S+?)，\</span\>', content, re.MULTILINE)
+    # texts = re.findall(r'(?<=居住于：).\S+?(?=。)', content, re.MULTILINE)
+    # str = re.sub(']+>','',content,re.M|re.S)
+    pattern = re.compile(r'>(.*?)<')
+    # texts = re.findall(r'居住于:(\S+?)，|。', content, re.MULTILINE)
+    x = pattern.findall(content)
+    contenttmp =''
+    contenttmp = contenttmp.join(x)
+    texts = []
+    texts1 = re.findall(r'居住于(\S+?)。', contenttmp, re.MULTILINE)
+    texts2 = re.findall(r'居住于，(\S+?)。', contenttmp, re.MULTILINE)
+
+    texts1.extend(texts2)    
+
+    for singletexts in texts1:
+        # texts = re.findall(r'\，(\S+?)，|。', contenttmp , re.MULTILINE)
+        singletexts = singletexts.strip('：&nbsp;')
+        singletexts = singletexts.strip('&nbsp;')
+        textstmp = singletexts.split('，')
+        texts.extend(textstmp)
+    # texts = re.findall(r'(.*?)', contenttmp ,re.S|re.M)
+    texts = list(filter(None, texts))
+    addresses = list(filter(lambda x: x!="", texts))
+    return list(set(addresses))
+
+
+def extract_addresses0319(url):
+    r = requests.get(url, headers=headers, verify=False)
+    content = r.content.decode("utf-8")
+    texts = re.findall(r'分别居住于：', content, re.MULTILINE)
     addresses = list(filter(lambda x: x!="", texts))
     return list(set(addresses))
 
@@ -43,7 +72,7 @@ def get_addresses():
             if dt < dt_begin:
                 continue
             url = base_url + sub_url """
-    parts = extract_addresses('https://wsjkw.sh.gov.cn/xwfb/20220320/f9f1683cf055471fb1a67b8586e36660.html')
+    parts = extract_addresses0319('https://wsjkw.sh.gov.cn/xwfb/20220320/f9f1683cf055471fb1a67b8586e36660.html')
     addresses.extend(parts);
     addresses = list(set(addresses))
 

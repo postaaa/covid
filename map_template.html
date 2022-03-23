@@ -24,6 +24,7 @@
     <div id='points'></div>
     <script>
         var addresses = {{ addresses }};
+        var counts = {{ counts }};
 
         var map = new BMapGL.Map('container');
         map.centerAndZoom(new BMapGL.Point(121.5,31.23), 12);
@@ -31,10 +32,14 @@
         var myGeo = new BMapGL.Geocoder();
         function mark(i) {
             var address = addresses[i];
+            var count = counts[i];
             myGeo.getPoint(address, function(point) {
                 if (point) {
                     var marker = new BMapGL.Marker(new BMapGL.Point(point.lng, point.lat));
-                    var label = new BMapGL.Label(address, {offset:new BMapGL.Size(10,-35)});
+                    if(count>1)
+                        var label = new BMapGL.Label(address+"["+count +"]次" , {offset:new BMapGL.Size(10,-35)});
+                    else                        
+                        var label = new BMapGL.Label(address , {offset:new BMapGL.Size(10,-35)});
                     map.addOverlay(marker);
                     marker.setLabel(label);
 
@@ -46,6 +51,10 @@
         }
         mark(0);
 
+        var navi3DCtrl = new BMapGL.NavigationControl3D();  // 添加3D控件
+        map.addControl(navi3DCtrl);
+        var scaleCtrl = new BMapGL.ScaleControl();  // 添加比例尺控件
+        map.addControl(scaleCtrl);
     </script>
 </body>
 </html>

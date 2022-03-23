@@ -1,5 +1,4 @@
 import argparse
-from copyreg import add_extension
 import json
 import datetime
 import re
@@ -40,11 +39,7 @@ def extract_addressesEx1(url):
         # texts = re.findall(r'\，(\S+?)，|。', contenttmp , re.MULTILINE)
         singletexts = singletexts.strip('：&nbsp;')
         singletexts = singletexts.strip('&nbsp;')
-        singletexts = singletexts.strip('，&nbsp;')
-        singletexts = re.sub(r"[\u4e00-\u9fa5]+区", "", singletexts)
-        textstmp = re.split(r'[，；、\s]',singletexts)
-        
-        # textstmp = singletexts.split(r'[，；、\s]')
+        textstmp = singletexts.split(r'，、')
         texts.extend(textstmp)
     # texts = re.findall(r'(.*?)', contenttmp ,re.S|re.M)
     addresses = list(filter(None, texts))
@@ -110,23 +105,10 @@ def get_addresses():
             parts = extract_addresses(url)
             addresses.extend(parts);  
     addresses = list(set(addresses))
-    addressesReslut = []
-    countReslut = []
-    for address in addresses:
-        address = address.strip()
-        address = re.sub(r"^[\u4e00-\u9fa5]+区", "", address)
-        if len(address) == 0:
-            continue        
-        if not address in addressesReslut:            
-            addressesReslut.append(address)
-            countReslut.append(1)
-        else:
-            i = addressesReslut.index(address)
-            countReslut[i] += 1
     file_loader = FileSystemLoader('.')
     env = Environment(loader=file_loader)
     template = env.get_template('map_template.html')
-    output = template.render(addresses=addressesReslut,counts=countReslut)
+    output = template.render(addresses=addresses)
     with open("covid-map.html", "w",encoding='utf-8') as f:
         f.write(output)
 
