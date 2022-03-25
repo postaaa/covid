@@ -65,6 +65,7 @@ def get_addresses():
     ]
     base_url = "https://wsjkw.sh.gov.cn"
     addresses = []
+    filename = ""
     for main_url in main_urls:
         r = requests.get(main_url, headers=headers, verify=False)
         content = r.content.decode("utf-8")
@@ -82,6 +83,16 @@ def get_addresses():
                         continue
                     mon = int(m.group(1))
                     date = int(m.group(2))
+                    if len(filename) == 0:
+                        if len(m.group(1)) == 1:
+                            monstr = '0'+m.group(1)    
+                        else:
+                            monstr = m.group(1)                      
+                        if len(m.group(2)) == 1:
+                            datestr = '0'+m.group(2)
+                        else:
+                            datestr = m.group(2)     
+                        filename = r'scr\covid-map-2022-'+ monstr +'-'+ datestr +'.html'
                     dt = datetime.date(2022, mon, date)
                     dt_begin = datetime.date(2022, 3, 10)
                     if dt < dt_begin:
@@ -127,7 +138,7 @@ def get_addresses():
     env = Environment(loader=file_loader)
     template = env.get_template('map_template.html')
     output = template.render(addresses=addressesReslut,counts=countReslut)
-    with open("covid-map.html", "w",encoding='utf-8') as f:
+    with open(filename, "w",encoding='utf-8') as f:
         f.write(output)
 
 
