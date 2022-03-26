@@ -142,12 +142,10 @@ def get_addresses():
     with open(filename, "w",encoding='utf-8') as f:
         f.write(output)
     
-    out ="&lt;html&gt;&lt;body&gt;\n&lt;ol&gt;\n";
+    out ="<html><head><meta charset='UTF-8'><title>上海疫情地图</title></head><body>\n <br>\n All data comes from public information on the official website and is not responsible for any errors. All web pages are for testing purposes and circulation and commercial use are strictly prohibited. <br>\n<hr></hr>\n<ol>\n";
     out += WalkDir("scr")
-    out +="\n&lt;/ol&gt;"
-
-
-    Save2File("scr\index.htm",out);
+    out +="\n</ol>\n<hr></hr>"
+    Save2File("scr\index.html",out)
 
 
 
@@ -247,13 +245,14 @@ def WalkDir(dirname):
         for fn in ls:
             temp=os.path.join(dirname,fn)
             if (os.path.isdir(temp)):
-                out += "&lt;h3&gt;"+temp+"&lt;/h3&gt;\n"
-                out +="&lt;ol&gt;\n"
+                out += "<h3>"+temp+"</h3>\n"
+                out +="<ol>\n"
                 
                 out +=WalkDir(temp)
-                out +="&lt;/ol&gt;\n"
-            else:
-                out +="&lt;li&gt;&lt;a href=\""+temp+"\"&gt;"+fn+"&lt;/a&gt;&lt;/li&gt;\n"
+                out +="</ol>\n"
+            else:                
+                if re.match(r"covid-map-2022-", fn, flags=0):
+                    out +="<li><a href=\""+temp+"\">"+fn+"</a></li>\n"
     return out
 
 if __name__ == "__main__":
