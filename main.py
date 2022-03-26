@@ -6,6 +6,7 @@ import re
 from jinja2 import Environment, FileSystemLoader
 import requests
 from lxml import etree
+import os
 
 headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36"}
 
@@ -140,6 +141,14 @@ def get_addresses():
     output = template.render(addresses=addressesReslut,counts=countReslut)
     with open(filename, "w",encoding='utf-8') as f:
         f.write(output)
+    
+    out ="&lt;html&gt;&lt;body&gt;\n&lt;ol&gt;\n";
+    out += WalkDir("scr")
+    out +="\n&lt;/ol&gt;"
+
+
+    Save2File("scr\index.htm",out);
+
 
 
 def get_addresses_on_date(date):
@@ -222,6 +231,30 @@ def get_agg_addresses_from_url(url):
     filename = "covid-map-2022-{:02d}-{:02d}.html".format(mon, date)
     with open(filename, "w") as f:
         f.write(output)
+
+def Save2File(pathname,content):
+    fw = open(pathname,"wt",encoding="utf-8")
+    fw.write(content)
+    fw.close()
+
+def WalkDir(dirname):
+    out =""
+    try:
+        ls=os.listdir(dirname)
+    except:
+        print ("Access Deny.")
+    else:
+        for fn in ls:
+            temp=os.path.join(dirname,fn)
+            if (os.path.isdir(temp)):
+                out += "&lt;h3&gt;"+temp+"&lt;/h3&gt;\n"
+                out +="&lt;ol&gt;\n"
+                
+                out +=WalkDir(temp)
+                out +="&lt;/ol&gt;\n"
+            else:
+                out +="&lt;li&gt;&lt;a href=\""+temp+"\"&gt;"+fn+"&lt;/a&gt;&lt;/li&gt;\n"
+    return out
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
