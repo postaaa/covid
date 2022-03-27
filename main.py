@@ -142,7 +142,7 @@ def get_addresses():
     with open(filename, "w",encoding='utf-8') as f:
         f.write(output)
     
-    out ="<html><head><meta charset='UTF-8'><title>Covid-MAp</title></head><body>\n <br>\n All data comes from public information on the official website and is not responsible for any errors. All web pages are for testing purposes and circulation and commercial use are strictly prohibited. <br>\n<hr></hr>\n<ol>\n";
+    out ="<html><head><meta charset='UTF-8'><title>Covid-Map</title></head><body>\n <br>\n All data comes from public information on the official website and is not responsible for any errors. All web pages are for testing purposes and circulation and commercial use are strictly prohibited. <br>\n<hr></hr>\n<ol>\n";
     out += WalkDir("scr")
     new_func(out)
     Save2File("scr\index.html",out)
@@ -255,7 +255,7 @@ def WalkDir(dirname):
                 out +="</ol>\n"
             else:                
                 if re.match(r"covid-map-2022-", fn, flags=0):
-                    out +="<li><a href=\""+temp+"\">"+fn+"</a></li>\n"
+                    out +="<li><a href=\""+fn+"\">"+fn+"</a></li>\n"
     return out
 
 if __name__ == "__main__":
