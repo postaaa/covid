@@ -144,8 +144,11 @@ def get_addresses():
     
     out ="<html><head><meta charset='UTF-8'><title>上海疫情地图</title></head><body>\n <br>\n All data comes from public information on the official website and is not responsible for any errors. All web pages are for testing purposes and circulation and commercial use are strictly prohibited. <br>\n<hr></hr>\n<ol>\n";
     out += WalkDir("scr")
-    out +="\n</ol>\n<hr></hr>"
+    new_func(out)
     Save2File("scr\index.html",out)
+
+def new_func(out):
+    out +="\n</ol>\n<hr></hr>"
 
 
 
