@@ -77,9 +77,10 @@ def get_addresses():
             title = node.attrib["title"]
             m = re.match(r'上海2022年(\d+)月(\d+)日', title)
             if not m:
-                m = re.match(r'3月19日（0-24时）本市各区确诊病例、无症状感染者居住地信息', title)
+                # m = re.match(r'3月19日（0-24时）本市各区确诊病例、无症状感染者居住地信息', title)                
+                m = re.match(r'(\d+)月(\d+)日\（0-24时\）本市各区确诊病例', title)                
                 if not m:                    
-                    m = re.match(r'(\d+)月(\d+)日\（0-24时\）本市各区确诊病例', title)
+                    m = re.match(r'【最新】(\d+)月(\d+)日\（0-24时\）本市各区确诊病例', title)
                     if not m:   
                         continue
                     mon = int(m.group(1))
@@ -102,8 +103,8 @@ def get_addresses():
                     parts = extract_addressesEx1(url)
                     addresses.extend(parts);
                     continue
-                mon = 3
-                date = 19
+                mon = int(m.group(1))
+                date = int(m.group(2))
                 dt = datetime.date(2022, mon, date)
                 dt_begin = datetime.date(2022, 3, 10)
                 if dt < dt_begin:
