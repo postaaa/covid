@@ -17,14 +17,15 @@ def extract_addresses(url):
     addresses = list(filter(lambda x: x!="", texts))
     return list(set(addresses))
 
-def extract_addressesEx(url):
+""" def extract_addressesEx(url):
     r = requests.get(url, headers=headers, verify=False)
     content = r.content.decode("utf-8")
     texts = re.findall(r'分别居住于：', content, re.MULTILINE)
     addresses = list(filter(lambda x: x!="", texts))
-    return list(set(addresses))
+    return list(set(addresses)) """
 
-def extract_addressesEx1(url):
+
+def extract_addressesEx(url):
     r = requests.get(url, headers=headers, verify=False)
     content = r.content.decode("utf-8")
     pattern = re.compile(r'>(.*?)<')
@@ -32,6 +33,8 @@ def extract_addressesEx1(url):
     contenttmp =''
     contenttmp = contenttmp.join(x)
     texts = []
+    textsQuName = re.findall(r'日，(\S+?)区' , contenttmp, re.MULTILINE)
+     
     texts1 = re.findall(r'居住于(\S+?)。', contenttmp, re.MULTILINE)
     texts2 = re.findall(r'居住于，(\S+?)。', contenttmp, re.MULTILINE)
 
@@ -47,6 +50,33 @@ def extract_addressesEx1(url):
         
         # textstmp = singletexts.split(r'[，；、\s]')
         texts.extend(textstmp)
+    # texts = re.findall(r'(.*?)', contenttmp ,re.S|re.M)
+    addresses = list(filter(None, texts))
+    return list(set(addresses))
+
+def extract_addressesEx1(url):
+    r = requests.get(url, headers=headers, verify=False)
+    content = r.content.decode("utf-8")
+    pattern = re.compile(r'>(.*?)<')
+    x = pattern.findall(content)
+    contenttmp =''
+    contenttmp = contenttmp.join(x)
+    texts = []
+    textsQuName = re.findall(r'日，(\S+?)区' , contenttmp, re.MULTILINE)
+     
+    contenttmp = re.sub(r" ", "&nbsp;", contenttmp)   
+    texts1 = re.findall(r'居住于(\S+?)。', contenttmp, re.MULTILINE)
+    i=0
+    for singletexts in texts1:
+        # texts = re.findall(r'\，(\S+?)，|。', contenttmp , re.MULTILINE)
+        singletexts = singletexts.strip('：&nbsp;')
+        singletexts = singletexts.strip('&nbsp;')
+        singletexts = singletexts.strip('，&nbsp;')
+        textstmp = re.split(r'[，；、\s]',singletexts)
+        # textstmp = singletexts.split(r'[，；、\s]')
+        #textsend = [textsQuName[i]+ "区" +str(textstmp[j]) for j in range(len(textstmp))]
+        texts.extend(textstmp)        
+        i = i+1 
     # texts = re.findall(r'(.*?)', contenttmp ,re.S|re.M)
     addresses = list(filter(None, texts))
     return list(set(addresses))
@@ -105,6 +135,16 @@ def get_addresses():
                     continue
                 mon = int(m.group(1))
                 date = int(m.group(2))
+                if len(filename) == 0:
+                    if len(m.group(1)) == 1:
+                        monstr = '0'+m.group(1)    
+                    else:
+                        monstr = m.group(1)                      
+                    if len(m.group(2)) == 1:
+                        datestr = '0'+m.group(2)
+                    else:
+                        datestr = m.group(2)     
+                    filename = r'scr\covid-map-2022-'+ monstr +'-'+ datestr +'.html'
                 dt = datetime.date(2022, mon, date)
                 dt_begin = datetime.date(2022, 3, 10)
                 if dt < dt_begin:
@@ -115,6 +155,16 @@ def get_addresses():
                 continue
             mon = int(m.group(1))
             date = int(m.group(2))
+            if len(filename) == 0:
+                if len(m.group(1)) == 1:
+                    monstr = '0'+m.group(1)    
+                else:
+                    monstr = m.group(1)                      
+                if len(m.group(2)) == 1:
+                    datestr = '0'+m.group(2)
+                else:
+                    datestr = m.group(2)     
+                filename = r'scr\covid-map-2022-'+ monstr +'-'+ datestr +'.html'
             dt = datetime.date(2022, mon, date)
             dt_begin = datetime.date(2022, 3, 10)
             if dt < dt_begin:
