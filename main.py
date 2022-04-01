@@ -92,7 +92,12 @@ def get_addresses():
         "https://wsjkw.sh.gov.cn/xwfb/index_2.html",
         "https://wsjkw.sh.gov.cn/xwfb/index_3.html",
         "https://wsjkw.sh.gov.cn/xwfb/index_4.html",
-        "https://wsjkw.sh.gov.cn/xwfb/index_5.html"
+        "https://wsjkw.sh.gov.cn/xwfb/index_5.html",
+        "https://wsjkw.sh.gov.cn/xwfb/index_6.html",
+        "https://wsjkw.sh.gov.cn/xwfb/index_7.html",
+        "https://wsjkw.sh.gov.cn/xwfb/index_8.html",
+        "https://wsjkw.sh.gov.cn/xwfb/index_9.html",
+        "https://wsjkw.sh.gov.cn/xwfb/index_10.html"
     ]
     base_url = "https://wsjkw.sh.gov.cn"
     addresses = []
@@ -176,10 +181,10 @@ def get_addresses():
     addressesReslut = []
     countReslut = []
     for address in addresses:
-        address = address.strip()
-        address = re.sub(r"^[\u4e00-\u9fa5]+区", "", address)
-        if len(address) == 0:
-            continue        
+        # address = address.strip()
+        # address = re.sub(r"^[\u4e00-\u9fa5]+区", "", address)
+        # if len(address) == 0:
+        #     continue        
         if not address in addressesReslut:            
             addressesReslut.append(address)
             countReslut.append(1)
