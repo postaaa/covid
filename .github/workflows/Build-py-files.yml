@@ -6,6 +6,7 @@
 name: Build Python App
 
 on:
+  types: [opened, synchronize, reopened, closed]
   workflow_dispatch:     
     
 jobs:
