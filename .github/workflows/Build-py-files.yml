@@ -3,11 +3,11 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Upload Python Package
+name: Build Python App
 
 on:
   release:
-    types: [published]
+    types: [workflow_dispatch]
 
 jobs:
   deploy:
