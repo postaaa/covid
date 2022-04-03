@@ -5,29 +5,23 @@
 
 name: Build Python App
 
-on: 
-
-workflow_dispatch:
-    branches:    
-      - 'main'
+on:
+  release:    
+  
+  workflow_dispatch:
+  
 jobs:
-  build:   
-    runs-on: ubuntu-latest  
+ build:
+    runs-on: ubuntu-latest
     steps:
-        - name: checkout actions
-          uses: actions/checkout@v3
+    - uses: actions/checkout@v3      
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.x'
 
-        - name: Set up Python 3.7
-          uses: actions/setup-python@v3
-          with:
-            python-version: '3.x'
-
-        - name: Update paper list
-          run: |
-            python main.py
-
-        - name: commit
-          run: |
-            git add .
-            git commit -m "update" -a
-
+ 
+    - run: python main.py
+    - run:
+        git add .
+        git commit -m "update" -a
