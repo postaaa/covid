@@ -6,9 +6,10 @@
 name: Build Python App
 
 on:
-  release:
-    types: [workflow_dispatch]
-
+  release:    
+  
+  workflow_dispatch:
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest
