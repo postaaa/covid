@@ -1,0 +1,27 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Build Python App
+
+on:
+  release:    
+  
+  workflow_dispatch:
+  
+jobs:
+ build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3      
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.8'
+
+ 
+    - run: python main.py
+    - run:
+        git add .
+        git commit -m "update" -a
