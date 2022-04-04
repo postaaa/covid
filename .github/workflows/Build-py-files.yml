@@ -24,9 +24,9 @@ jobs:
       run: python --version
         
     - name: build app    
-    - run: python main.py
+      run: python main.py
     
     - name: Commit files
-    - run:
+      run:
         git add .
         git commit -m "update" -a
