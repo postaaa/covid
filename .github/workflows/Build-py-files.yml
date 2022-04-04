@@ -19,9 +19,14 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: '3.8'
-
- 
-    - run: python main.py
+    
+    - name: Display Python version
+      run: python --version
+        
+    - name: build app    
+    - run: python main.py
+    
+    - name: Commit files
     - run:
         git add .
         git commit -m "update" -a
