@@ -6,8 +6,8 @@
 name: Build Python App
 
 on:
-  release:    
-  
+  schedule:
+    - cron: '59 05 * * *'
   workflow_dispatch:
   
 jobs:
