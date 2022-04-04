@@ -29,7 +29,6 @@ jobs:
           pip install jinja2 
           pip install requests          
           pip install lxml
-          pip install copyreg
           
     - name: build app    
       run: python main.py
