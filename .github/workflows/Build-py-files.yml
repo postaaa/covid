@@ -31,7 +31,7 @@ jobs:
           pip install lxml
           
     - name: build app    
-      run: python main.py
+      run: python main-githubaction.py
     
     - name: Commit files
       run: |
