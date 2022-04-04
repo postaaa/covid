@@ -129,7 +129,7 @@ def get_addresses():
                             datestr = '0'+m.group(2)
                         else:
                             datestr = m.group(2)     
-                        filename = r'scr\covid-map-2022-'+ monstr +'-'+ datestr +'.html'
+                        filename = r'scr\\covid-map-2022-'+ monstr +'-'+ datestr +'.html'
                     dt = datetime.date(2022, mon, date)
                     dt_begin = datetime.date(2022, 3, 10)
                     if dt < dt_begin:
@@ -149,7 +149,7 @@ def get_addresses():
                         datestr = '0'+m.group(2)
                     else:
                         datestr = m.group(2)     
-                    filename = r'scr\covid-map-2022-'+ monstr +'-'+ datestr +'.html'
+                    filename = r'scr\\covid-map-2022-'+ monstr +'-'+ datestr +'.html'
                 dt = datetime.date(2022, mon, date)
                 dt_begin = datetime.date(2022, 3, 10)
                 if dt < dt_begin:
@@ -169,7 +169,7 @@ def get_addresses():
                     datestr = '0'+m.group(2)
                 else:
                     datestr = m.group(2)     
-                filename = r'scr\covid-map-2022-'+ monstr +'-'+ datestr +'.html'
+                filename = r'scr\\covid-map-2022-'+ monstr +'-'+ datestr +'.html'
             dt = datetime.date(2022, mon, date)
             dt_begin = datetime.date(2022, 3, 10)
             if dt < dt_begin:
@@ -201,7 +201,7 @@ def get_addresses():
     out ="<html><head><meta charset='UTF-8'><title>Covid-Map</title></head><body>\n <br>\n All data comes from public information on the official website and is not responsible for any errors. All web pages are for testing purposes and circulation and commercial use are strictly prohibited. <br>\n<hr></hr>\n<ol>\n";
     out += WalkDir("scr")
     new_func(out)
-    Save2File("scr\index.html",out)
+    Save2File("scr\\index.html",out)
 
 def new_func(out):
     out +="\n</ol>\n<hr></hr>"
