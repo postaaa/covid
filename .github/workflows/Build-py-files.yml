@@ -34,6 +34,6 @@ jobs:
       run: python main.py
     
     - name: Commit files
-      run:
+      run: |
         git add .
-        git commit -m "update" -a
+        git commit -m "update-daliy data" -a
