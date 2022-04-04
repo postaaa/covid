@@ -35,5 +35,13 @@ jobs:
     
     - name: Commit files
       run: |
-        git add .
-        git commit -m "update-daliy data" -a
+          git config --local user.email "postaaa@gmail.com"
+          git config --local user.name "Sean"
+          git add .
+          git commit -m "`update daily data on date '+%Y-%m-%d %H:%M:%S'`" #动态提交信息
+      # 推送到github仓库
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: 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
+        branch: main
