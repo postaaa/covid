@@ -38,7 +38,7 @@ jobs:
           git config --local user.email "postaaa@gmail.com"
           git config --local user.name "Sean"
           git add .
-          git commit -m "`update daily data on date '+%Y-%m-%d %H:%M:%S'`" #动态提交信息
+          git commit -m "update daily data on date." #动态提交信息
       # 推送到github仓库
     - name: Push changes
       uses: ad-m/github-push-action@master
