@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
   
 jobs:
- build App and Push:
+ build_App_and_Push:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3      
