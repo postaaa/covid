@@ -134,7 +134,10 @@ def get_addresses():
                     dt_begin = datetime.date(2022, 3, 10)
                     if dt < dt_begin:
                         continue
-                    url = base_url + sub_url
+                    if str.startswith(sub_url,'https'):
+                        url = sub_url
+                    else:
+                        url = base_url + sub_url
                     parts = extract_addressesEx1(url)
                     addresses.extend(parts);
                     continue
@@ -154,7 +157,10 @@ def get_addresses():
                 dt_begin = datetime.date(2022, 3, 10)
                 if dt < dt_begin:
                     continue
-                url = base_url + sub_url
+                if str.startswith(sub_url,'https'):
+                    url = sub_url
+                else:
+                    url = base_url + sub_url
                 parts = extract_addressesEx1(url)
                 addresses.extend(parts);
                 continue
@@ -174,7 +180,10 @@ def get_addresses():
             dt_begin = datetime.date(2022, 3, 10)
             if dt < dt_begin:
                 continue
-            url = base_url + sub_url
+            if str.startswith(sub_url,'https'):
+                url = sub_url
+            else:
+                url = base_url + sub_url
             parts = extract_addresses(url)
             addresses.extend(parts);  
     addresses = list(set(addresses))
