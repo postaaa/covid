@@ -306,10 +306,11 @@ def Save2File(pathname,content):
 def WalkDir(dirname):
     out =""
     try:
-        ls=os.listdir(dirname)
+        lstmp=os.listdir(dirname)
     except:
         print ("Access Deny.")
     else:
+        ls = lstmp.sort();
         for fn in ls:
             temp=os.path.join(dirname,fn)
             if (os.path.isdir(temp)):
