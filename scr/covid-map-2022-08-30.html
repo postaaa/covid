@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=DD279b2a90afdf0ae7a3796787a0742e"></script>
+    <title>Covid-Map</title>
+    <script type="text/javascript">
+        var today = new Date();
+        Year = today.getFullYear();
+        Month = today.getMonth() + 1;
+        Day = today.getDate();
+        var titleday = "上海疫情地图" + Year +"-"+ Month +"-"+ Day
+        if(document.all)
+        document.all;
+        document.title = titleday;
+    </script>
+    <style>
+       body,html{
+           width: 100%;
+           height: 100%;
+           padding: 0;
+           margin: 0;
+       }
+       #container{
+           width: 100%;
+           height: 100%;
+           overflow: hidden;
+       }
+    </style>
+</head>
+<body>
+    <div id='container'></div>
+    <div id='points'></div>
+    <script>
+        var addresses = ['松江区', '金山区', '静安区', '闵行区', '杨浦区', '黄浦区', '徐汇区', '宝山区', '虹口区', '青浦区', '长宁区', '普陀区', '崇明区', '杨浦区。7人均系8月25日报告的本土确诊病例的密切接触者', '嘉定区', '浦东新区', '奉贤区'];
+        var counts = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+
+        var map = new BMapGL.Map('container');
+        map.centerAndZoom(new BMapGL.Point(121.5,31.23), 12);
+        map.enableScrollWheelZoom(true);
+        var myGeo = new BMapGL.Geocoder();
+        function mark(i) {
+            var address = addresses[i];
+            var count = counts[i];
+            myGeo.getPoint(address, function(point) {
+                if (point) {
+                    var marker = new BMapGL.Marker(new BMapGL.Point(point.lng, point.lat));
+                    if(count>1)
+                        var label = new BMapGL.Label(address+"["+count +"]次" , {offset:new BMapGL.Size(10,-35)});
+                    else                        
+                        var label = new BMapGL.Label(address , {offset:new BMapGL.Size(10,-35)});
+                    map.addOverlay(marker);
+                    marker.setLabel(label);
+
+                }
+            }, "上海市");
+            if (i+1 < addresses.length) {
+                setTimeout(window.mark, 10, i+1);
+            }
+        }
+        mark(0);
+
+        var navi3DCtrl = new BMapGL.NavigationControl3D();  // 添加3D控件
+        map.addControl(navi3DCtrl);
+        var scaleCtrl = new BMapGL.ScaleControl();  // 添加比例尺控件
+        map.addControl(scaleCtrl);
+    </script>
+</body>
+</html>
